@@ -21,6 +21,7 @@ find_package(Boost COMPONENTS system thread)
 find_package(LibZip QUIET)
 find_package(Pangolin 0.2 QUIET)
 find_package(OpenCV QUIET)
+#find_package(PCL REQUIRED)
 
 # flags
 add_definitions("-DENABLE_SSE")
@@ -53,6 +54,7 @@ set(dso_SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/util/settings.cpp
   ${PROJECT_SOURCE_DIR}/src/util/Undistort.cpp
   ${PROJECT_SOURCE_DIR}/src/util/globalCalib.cpp
+#  ${PROJECT_SOURCE_DIR}/src/IOWrapper/OutputWrapper/ROSOutputWrapper.h
 )
 
 
@@ -130,3 +132,24 @@ else()
 	message("--- not building dso_dataset, since either don't have openCV or Pangolin.")
 endif()
 
+
+#if (PCL_FOUND)
+#    include_directories( ${PCL_INCLUDE_DIRS} )
+#    message("printing pcl include dirs")
+#    message(${PCL_INCLUDE_DIRS})
+
+#    # [C/C++]>[Preprocessor]>[Preprocessor Definitions]
+#    add_definitions( ${PCL_DEFINITIONS} )
+
+#    # For Use Not PreCompiled Features
+#    #add_definitions( -DPCL_NO_PRECOMPILE )
+
+#    # [Linker]>[General]>[Additional Library Directories]
+#    link_directories( ${PCL_LIBRARY_DIRS} )
+
+#    target_link_libraries(dso ${PCL_LIBRARIES})
+
+#endif()
+
+include_directories(${catkin_INCLUDE_DIRS})
+target_link_libraries(dso ${catkin_LIBRARIES})
